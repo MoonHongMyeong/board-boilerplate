@@ -1,0 +1,48 @@
+package me.moon.boilerplate.member.persistence.entity;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Embedded
+    private Email email;
+
+    @Embedded
+    private Password password;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Embedded
+    private Address address;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Role")
+    private Role Role;
+
+    @Builder
+    public Member(Email email, Password password, String name, String phone, Address address){
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.Role = me.moon.boilerplate.member.persistence.entity.Role.USER;
+    }
+
+}
