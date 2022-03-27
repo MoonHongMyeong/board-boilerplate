@@ -1,5 +1,6 @@
 spring :
-   profiles : test
+   config.activate.on-profile: test
+   devtools.add-properties: true
    h2 :
        console :
            enabled : true
@@ -14,3 +15,20 @@ spring :
        url : jdbc:h2:tcp://localhost/~/test
        username : sa
        password :
+
+logging:
+    logback.rollingpolicy:
+        clean-history-on-start: false
+        file-name-pattern: "logs/%d{yyyy-MM-dd}/test.%d{yyyy-MM-dd}.%i.log"
+        max-file-size: 10
+        max-history: 30
+    pattern:
+        file: "[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n"
+    file:
+        name: logs/test.log
+        path: logs
+        max-history: 30
+    level:
+        web: debug
+        root: info
+        me.moon.boilerplate.member.controller.MemberApiController: info
