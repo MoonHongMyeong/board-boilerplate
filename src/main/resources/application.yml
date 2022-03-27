@@ -2,8 +2,13 @@ server:
     port: 8000
 
 spring:
+    config:
+        import: classpath:application-test.yml, application-dev.yml
     profiles:
-        active: test
+        include:
+            - test
+        group:
+            dev: dev
 
     jpa:
         show-sql: true
