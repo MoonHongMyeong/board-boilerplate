@@ -1,6 +1,7 @@
 package me.moon.boilerplate.member.persistence.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,11 @@ public class Email {
     public String getId(){
         int index = value.indexOf("@");
         return value.substring(0, index);
+    }
+
+    @Builder
+    public Email(String value){
+        this.value = value;
     }
 
 }
