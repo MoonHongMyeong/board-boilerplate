@@ -2,6 +2,7 @@ package me.moon.boilerplate.common.error;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
@@ -15,6 +16,7 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR("C500", "내부 서버 오류 \n관리자에게 연락해 주세요.", 500),
     //ACCOUNT
     ACCOUNT_NOT_FOUND("A001", "해당 회원을 찾을 수 없습니다.", 404),
+    EMAIL_DUPLICATION("A002", "중복 된 이메일입니다.", 409),
     PASSWORD_FAILED_EXCEEDED("A003", "비밀번호 실패 횟수를 초과했습니다.", 403);
 
     private final String code;
