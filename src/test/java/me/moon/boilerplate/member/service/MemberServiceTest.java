@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+import static com.google.common.truth.Truth.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles(TestProfile.TEST)
@@ -85,11 +86,11 @@ public class MemberServiceTest {
         final MemberResponse signUpMember = memberService.signup(dto);
 
         //then
-        assertNotNull(signUpMember);
-        assertEquals(signUpMember.getAddress(), member.getAddress());
-        assertEquals(signUpMember.getEmail(), member.getEmail());
-        assertEquals(signUpMember.getName(), member.getName());
-        assertEquals(signUpMember.getPhone(), member.getPhone());
+        assertThat(signUpMember).isNotNull();
+        assertThat(signUpMember.getAddress()).isEqualTo(member.getAddress());
+        assertThat(signUpMember.getEmail()).isEqualTo(member.getEmail());
+        assertThat(signUpMember.getName()).isEqualTo(member.getName());
+        assertThat(signUpMember.getPhone()).isEqualTo(member.getPhone());
     }
 
     @DisplayName("회원가입 시 이메일 중복")
@@ -113,6 +114,7 @@ public class MemberServiceTest {
 
         //when
         when(memberRepository.existsByEmail(any())).thenReturn(true);
+
         //then
         assertThrows(EmailDuplicatedException.class, () -> {
             memberService.signup(dto);
