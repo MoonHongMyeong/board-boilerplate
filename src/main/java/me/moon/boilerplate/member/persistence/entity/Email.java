@@ -14,7 +14,7 @@ import javax.persistence.Embeddable;
 public class Email {
 
     @javax.validation.constraints.Email
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String value;
 
     public String getHost(){
