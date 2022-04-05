@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberResponse signup(MemberSignupRequest dto) {
 

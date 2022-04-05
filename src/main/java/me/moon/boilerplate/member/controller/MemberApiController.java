@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1")
 public class MemberApiController {
 
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @PostMapping("/member")
     public ResponseEntity signup(@RequestBody @Valid MemberSignupRequest dto){
