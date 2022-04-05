@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Embeddable
@@ -20,7 +21,7 @@ public class Password {
     @Column(name = "password", nullable = false)
     private String value;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "password_failed_count", nullable = false)
     private int failedCount;
 
