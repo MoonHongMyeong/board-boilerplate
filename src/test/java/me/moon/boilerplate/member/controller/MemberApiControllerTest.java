@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.moon.boilerplate.BoilerplateApplication;
 import me.moon.boilerplate.config.TestProfile;
 import me.moon.boilerplate.config.setup.MemberBuilder;
+import me.moon.boilerplate.config.setup.MemberSignupRequestBuilder;
 import me.moon.boilerplate.member.dto.MemberSignupRequest;
 import me.moon.boilerplate.member.persistence.entity.Address;
 import me.moon.boilerplate.member.persistence.entity.Email;
@@ -43,6 +44,7 @@ public class MemberApiControllerTest {
     protected ObjectMapper objectMapper;
 
     private Member member;
+    private MemberSignupRequest signupDto;
 
     @BeforeAll
     public void setup(){
@@ -54,38 +56,25 @@ public class MemberApiControllerTest {
     @Test
     public void successfullySignUp() throws Exception {
         //given
-        final Address address = member.getAddress();
-        final Email email = member.getEmail();
-        final Password password = member.getPassword();
-        final String name = member.getName();
-        final String phone =  member.getPhone();
-
-        final MemberSignupRequest dto = MemberSignupRequest
-                .builder()
-                .address(address)
-                .email(email)
-                .password(password)
-                .name(name)
-                .phone(phone)
-                .build();
+        signupDto = MemberSignupRequestBuilder.build(member);
 
         //when
         final ResultActions resultActions = mvc.perform(post("/api/v1/member")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                .content(objectMapper.writeValueAsString(signupDto)))
                 .andDo(print());
 
         //then
         resultActions
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("email.value").value(email.getValue()))
-                .andExpect(jsonPath("email.host").value(email.getHost()))
-                .andExpect(jsonPath("email.id").value(email.getId()))
-                .andExpect(jsonPath("address.address1").value(address.getAddress1()))
-                .andExpect(jsonPath("address.address2").value(address.getAddress2()))
-                .andExpect(jsonPath("address.zipcode").value(address.getZipcode()))
-                .andExpect(jsonPath("name").value(name))
-                .andExpect(jsonPath("phone").value(phone));
+                .andExpect(jsonPath("email.value").value(member.getEmail().getValue()))
+                .andExpect(jsonPath("email.host").value(member.getEmail().getHost()))
+                .andExpect(jsonPath("email.id").value(member.getEmail().getId()))
+                .andExpect(jsonPath("address.address1").value(member.getAddress().getAddress1()))
+                .andExpect(jsonPath("address.address2").value(member.getAddress().getAddress2()))
+                .andExpect(jsonPath("address.zipcode").value(member.getAddress().getZipcode()))
+                .andExpect(jsonPath("name").value(member.getName()))
+                .andExpect(jsonPath("phone").value(member.getName()));
 
     }
 
