@@ -5,11 +5,10 @@ import me.moon.boilerplate.config.setup.MemberBuilder;
 import me.moon.boilerplate.config.setup.MemberSignupRequestBuilder;
 import me.moon.boilerplate.member.dto.MemberResponse;
 import me.moon.boilerplate.member.dto.MemberSignupRequest;
+import me.moon.boilerplate.member.dto.MemberUpdateRequest;
 import me.moon.boilerplate.member.exception.EmailDuplicatedException;
 import me.moon.boilerplate.member.persistence.entity.Address;
-import me.moon.boilerplate.member.persistence.entity.Email;
 import me.moon.boilerplate.member.persistence.entity.Member;
-import me.moon.boilerplate.member.persistence.entity.Password;
 import me.moon.boilerplate.member.persistence.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static com.google.common.truth.Truth.assertThat;
@@ -33,23 +33,26 @@ import static com.google.common.truth.Truth.assertThat;
 public class MemberServiceTest {
 
     private Member member;
+    private MemberSignupRequest dto;
 
     @InjectMocks
     private MemberService memberService;
 
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private MemberFindDao memberFindDao;
 
     @BeforeAll
     public void setup(){
         member = MemberBuilder.build();
+        dto = MemberSignupRequestBuilder.build(member);
     }
 
     @DisplayName("회원가입 성공")
     @Test
     public void successfullySignUp(){
         //given
-        final MemberSignupRequest dto = MemberSignupRequestBuilder.build(member);
         given(memberRepository.existsByEmail(any())).willReturn(false);
         given(memberRepository.save(any())).willReturn(member);
 
@@ -68,7 +71,6 @@ public class MemberServiceTest {
     @Test
     public void duplicatedEmailExceptionWhenSignUp(){
         //given
-        final MemberSignupRequest dto = MemberSignupRequestBuilder.build(member);
 
         //when
         when(memberRepository.existsByEmail(any())).thenReturn(true);
@@ -77,5 +79,28 @@ public class MemberServiceTest {
         assertThrows(EmailDuplicatedException.class, () -> {
             memberService.signup(dto);
         });
+    }
+
+    @DisplayName("회원수정 성공")
+    @Test
+    public void updateMemberInfo(){
+        //given
+        MemberUpdateRequest updateRequest = MemberUpdateRequest.builder()
+                .address(Address.builder()
+                        .address1("exceptedAddress1")
+                        .address2("exceptedAddress2")
+                        .zipcode("exceptedZipcode")
+                        .build())
+                .phone("111-1111-1111")
+                .build();
+
+        given(memberFindDao.findById(anyLong())).willReturn(member);
+
+        //when
+        final MemberResponse updateMember = memberService.update(anyLong(), updateRequest);
+
+        //then
+        assertThat(updateMember.getPhone()).isEqualTo(updateRequest.getPhone());
+        assertThat(updateMember.getAddress()).isEqualTo(updateRequest.getAddress());
     }
 }
