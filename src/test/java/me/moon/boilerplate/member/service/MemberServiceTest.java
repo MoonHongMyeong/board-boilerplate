@@ -2,6 +2,7 @@ package me.moon.boilerplate.member.service;
 
 import me.moon.boilerplate.config.TestProfile;
 import me.moon.boilerplate.config.setup.MemberBuilder;
+import me.moon.boilerplate.config.setup.MemberSignupRequestBuilder;
 import me.moon.boilerplate.member.dto.MemberResponse;
 import me.moon.boilerplate.member.dto.MemberSignupRequest;
 import me.moon.boilerplate.member.exception.EmailDuplicatedException;
@@ -48,21 +49,7 @@ public class MemberServiceTest {
     @Test
     public void successfullySignUp(){
         //given
-        final Email email = member.getEmail();
-        final Address address = member.getAddress();
-        final Password password = member.getPassword();
-        final String name = member.getName();
-        final String phone = member.getPhone();
-
-        final MemberSignupRequest dto = MemberSignupRequest
-                .builder()
-                .address(address)
-                .email(email)
-                .password(password)
-                .name(name)
-                .phone(phone)
-                .build();
-
+        final MemberSignupRequest dto = MemberSignupRequestBuilder.build(member);
         given(memberRepository.existsByEmail(any())).willReturn(false);
         given(memberRepository.save(any())).willReturn(member);
 
@@ -81,20 +68,7 @@ public class MemberServiceTest {
     @Test
     public void duplicatedEmailExceptionWhenSignUp(){
         //given
-        final Email email = member.getEmail();
-        final Address address = member.getAddress();
-        final Password password = member.getPassword();
-        final String name = member.getName();
-        final String phone = member.getPhone();
-
-        final MemberSignupRequest dto = MemberSignupRequest
-                .builder()
-                .address(address)
-                .email(email)
-                .password(password)
-                .name(name)
-                .phone(phone)
-                .build();
+        final MemberSignupRequest dto = MemberSignupRequestBuilder.build(member);
 
         //when
         when(memberRepository.existsByEmail(any())).thenReturn(true);
