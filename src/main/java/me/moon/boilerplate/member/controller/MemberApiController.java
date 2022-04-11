@@ -1,8 +1,10 @@
 package me.moon.boilerplate.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.boilerplate.member.dto.MemberPasswordUpdateRequest;
 import me.moon.boilerplate.member.dto.MemberResponse;
 import me.moon.boilerplate.member.dto.MemberSignupRequest;
+import me.moon.boilerplate.member.dto.MemberUpdateRequest;
 import me.moon.boilerplate.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +25,21 @@ public class MemberApiController {
         MemberResponse response = memberService.signup(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PutMapping("/member/{memberId}")
+    public ResponseEntity update(@RequestBody @Valid MemberUpdateRequest dto, @PathVariable(name = "memberId") Long memberId){
+
+        MemberResponse response = memberService.update(memberId, dto);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/member/{memberId}/password")
+    public ResponseEntity update(@RequestBody @Valid MemberPasswordUpdateRequest dto, @PathVariable(name = "memberId") Long memberId){
+
+        memberService.changePassword(memberId, dto);
+
+        return ResponseEntity.ok("비밀번호를 변경했습니다.");
     }
 }
