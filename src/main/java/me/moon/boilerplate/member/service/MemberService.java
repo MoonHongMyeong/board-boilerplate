@@ -28,8 +28,7 @@ public class MemberService {
 
     public MemberResponse update(Long memberId, MemberUpdateRequest dto) {
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다.\n다시 확인해주세요."));
+        Member member = findById(memberId);
 
         member.updateMemberInfo(dto);
 
@@ -38,17 +37,23 @@ public class MemberService {
 
     public void changePassword(Long memberId, MemberPasswordUpdateRequest dto) {
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다.\n다시 확인해주세요."));
+        Member member = findById(memberId);
 
         member.changePassword(dto);
     }
 
     public void delete(Long memberId) {
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다.\n다시 확인해주세요."));
+        Member member = findById(memberId);
 
         memberRepository.delete(member);
     }
+
+    private Member findById(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다.\n다시 확인해주세요."));
+        return member;
+    }
+
+
 }
