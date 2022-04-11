@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberFindDao memberFindDao;
 
     public MemberResponse signup(MemberSignupRequest dto) {
 
@@ -28,7 +29,7 @@ public class MemberService {
 
     public MemberResponse update(Long memberId, MemberUpdateRequest dto) {
 
-        Member member = findById(memberId);
+        Member member = memberFindDao.findById(memberId);
 
         member.updateMemberInfo(dto);
 
@@ -37,23 +38,16 @@ public class MemberService {
 
     public void changePassword(Long memberId, MemberPasswordUpdateRequest dto) {
 
-        Member member = findById(memberId);
+        Member member = memberFindDao.findById(memberId);
 
         member.changePassword(dto);
     }
 
     public void delete(Long memberId) {
 
-        Member member = findById(memberId);
+        Member member = memberFindDao.findById(memberId);
 
         memberRepository.delete(member);
     }
-
-    private Member findById(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다.\n다시 확인해주세요."));
-        return member;
-    }
-
 
 }
