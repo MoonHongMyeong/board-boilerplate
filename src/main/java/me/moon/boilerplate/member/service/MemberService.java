@@ -43,4 +43,12 @@ public class MemberService {
 
         member.changePassword(dto);
     }
+
+    public void delete(Long memberId) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 회원을 찾을 수 없습니다.\n다시 확인해주세요."));
+
+        memberRepository.delete(member);
+    }
 }

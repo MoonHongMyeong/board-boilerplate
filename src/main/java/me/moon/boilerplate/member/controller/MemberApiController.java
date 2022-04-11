@@ -42,4 +42,12 @@ public class MemberApiController {
 
         return ResponseEntity.ok("비밀번호를 변경했습니다.");
     }
+
+    @DeleteMapping("/member/{memberId}")
+    public ResponseEntity withdrawal(@PathVariable(name = "memberId") Long memberId){
+
+        memberService.delete(memberId);
+
+        return ResponseEntity.ok("회원 탈퇴를 완료했습니다.");
+    }
 }
