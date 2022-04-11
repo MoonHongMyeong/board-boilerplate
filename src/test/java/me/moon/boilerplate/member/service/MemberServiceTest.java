@@ -1,6 +1,7 @@
 package me.moon.boilerplate.member.service;
 
 import me.moon.boilerplate.config.TestProfile;
+import me.moon.boilerplate.config.setup.MemberBuilder;
 import me.moon.boilerplate.member.dto.MemberResponse;
 import me.moon.boilerplate.member.dto.MemberSignupRequest;
 import me.moon.boilerplate.member.exception.EmailDuplicatedException;
@@ -40,24 +41,7 @@ public class MemberServiceTest {
 
     @BeforeAll
     public void setup(){
-        member = Member.builder()
-                .address(Address
-                        .builder()
-                        .address1("TestAddress1")
-                        .address2("TestAddress2")
-                        .zipcode("TestZipcode")
-                        .build())
-                .email(Email
-                        .builder()
-                        .value("testEmail@test.com")
-                        .build())
-                .password(Password
-                        .builder()
-                        .value("TestPassword")
-                        .build())
-                .name("TestUser")
-                .phone("000-0000-0000")
-                .build();
+        member = MemberBuilder.build();
     }
 
     @DisplayName("회원가입 성공")
