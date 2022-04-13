@@ -61,4 +61,12 @@ public class MemberApiController {
 
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/logout")
+    public ResponseEntity logout(){
+
+        loginService.logout();
+
+        return ResponseEntity.ok().build();
+    }
 }
