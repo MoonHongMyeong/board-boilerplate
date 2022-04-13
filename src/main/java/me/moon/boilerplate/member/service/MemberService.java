@@ -2,12 +2,10 @@ package me.moon.boilerplate.member.service;
 
 import lombok.RequiredArgsConstructor;
 import me.moon.boilerplate.common.error.exception.EntityNotFoundException;
-import me.moon.boilerplate.member.dto.MemberPasswordUpdateRequest;
-import me.moon.boilerplate.member.dto.MemberResponse;
-import me.moon.boilerplate.member.dto.MemberSignupRequest;
-import me.moon.boilerplate.member.dto.MemberUpdateRequest;
+import me.moon.boilerplate.member.dto.*;
 import me.moon.boilerplate.member.exception.EmailDuplicatedException;
 import me.moon.boilerplate.member.persistence.entity.Member;
+import me.moon.boilerplate.member.persistence.entity.Password;
 import me.moon.boilerplate.member.persistence.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +48,15 @@ public class MemberService {
         memberRepository.delete(member);
     }
 
+    public boolean isValidMember(LoginRequest dto) {
+
+        Member member = memberFindDao.findByEmail(dto.getEmail());
+        Password rawPassword = member.getPassword();
+
+        if(rawPassword.isMatched(dto.getPassword().getValue())){
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -1,10 +1,8 @@
 package me.moon.boilerplate.member.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.moon.boilerplate.member.dto.MemberPasswordUpdateRequest;
-import me.moon.boilerplate.member.dto.MemberResponse;
-import me.moon.boilerplate.member.dto.MemberSignupRequest;
-import me.moon.boilerplate.member.dto.MemberUpdateRequest;
+import me.moon.boilerplate.member.dto.*;
+import me.moon.boilerplate.member.service.LoginService;
 import me.moon.boilerplate.member.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,7 @@ import javax.validation.Valid;
 public class MemberApiController {
 
     private final MemberService memberService;
+    private final LoginService loginService;
 
     @PostMapping("/member")
     public ResponseEntity signup(@RequestBody @Valid MemberSignupRequest dto){
@@ -49,5 +48,17 @@ public class MemberApiController {
         memberService.delete(memberId);
 
         return ResponseEntity.ok("회원 탈퇴를 완료했습니다.");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid LoginRequest dto){
+
+        if(memberService.isValidMember(dto)){
+            loginService.login(dto.getEmail());
+
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 }
