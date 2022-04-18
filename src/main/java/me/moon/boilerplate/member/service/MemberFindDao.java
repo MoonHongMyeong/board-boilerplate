@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.boilerplate.common.error.exception.EntityNotFoundException;
 import me.moon.boilerplate.member.dto.LoginRequest;
 import me.moon.boilerplate.member.exception.InvalidLoginRequestException;
+import me.moon.boilerplate.member.exception.MemberNotFoundException;
 import me.moon.boilerplate.member.persistence.entity.Email;
 import me.moon.boilerplate.member.persistence.entity.Member;
 import me.moon.boilerplate.member.persistence.repository.MemberRepository;
@@ -18,7 +19,7 @@ public class MemberFindDao {
     public Member findById(Long memberId) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(memberId.toString()));
+                .orElseThrow(() -> new MemberNotFoundException(memberId.toString()));
 
         return member;
     }
@@ -26,7 +27,7 @@ public class MemberFindDao {
     public Member findByEmail(Email email){
 
         Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException(email.getValue()));
+                .orElseThrow(() -> new MemberNotFoundException(email.getValue()));
 
         return member;
     }
