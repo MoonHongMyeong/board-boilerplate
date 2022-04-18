@@ -1,6 +1,7 @@
 package me.moon.boilerplate.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.boilerplate.common.model.SessionUser;
 import me.moon.boilerplate.member.dto.*;
 import me.moon.boilerplate.member.service.LoginService;
 import me.moon.boilerplate.member.service.MemberService;
@@ -54,7 +55,9 @@ public class MemberApiController {
     public ResponseEntity login(@RequestBody @Valid LoginRequest dto){
 
         if(memberService.isValidMember(dto)){
-            loginService.login(dto.getEmail());
+
+            SessionUser member = memberService.findMemberByLoginRequest(dto);
+            loginService.login(member);
 
             return ResponseEntity.ok().build();
         }

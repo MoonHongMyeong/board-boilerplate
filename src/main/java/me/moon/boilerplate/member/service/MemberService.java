@@ -1,7 +1,7 @@
 package me.moon.boilerplate.member.service;
 
 import lombok.RequiredArgsConstructor;
-import me.moon.boilerplate.common.error.exception.EntityNotFoundException;
+import me.moon.boilerplate.common.model.SessionUser;
 import me.moon.boilerplate.member.dto.*;
 import me.moon.boilerplate.member.exception.EmailDuplicatedException;
 import me.moon.boilerplate.member.persistence.entity.Member;
@@ -58,5 +58,12 @@ public class MemberService {
         }
 
         return false;
+    }
+
+    public SessionUser findMemberByLoginRequest(LoginRequest dto) {
+
+        Member member = memberFindDao.findByEmail(dto.getEmail());
+
+        return new SessionUser(member);
     }
 }

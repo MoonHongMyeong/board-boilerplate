@@ -1,11 +1,11 @@
 package me.moon.boilerplate.member.service;
 
-import me.moon.boilerplate.member.persistence.entity.Email;
+import me.moon.boilerplate.common.model.SessionUser;
 import me.moon.boilerplate.member.persistence.entity.Member;
 
 public interface LoginService {
 
-    void login(Email email);
+    void login(SessionUser loginMember);
 
     void logout();
 
