@@ -40,7 +40,7 @@ public class MemberApiController {
 
     @LoginRequired
     @PutMapping("/member/{memberId}/password")
-    public ResponseEntity update(@RequestBody @Valid MemberPasswordUpdateRequest dto, @PathVariable(name = "memberId") Long memberId){
+    public ResponseEntity updatePassword(@RequestBody @Valid MemberPasswordUpdateRequest dto, @PathVariable(name = "memberId") Long memberId){
 
         memberService.changePassword(memberId, dto);
 
