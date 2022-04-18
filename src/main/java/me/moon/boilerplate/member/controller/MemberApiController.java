@@ -1,6 +1,7 @@
 package me.moon.boilerplate.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.boilerplate.common.annotation.LoginRequired;
 import me.moon.boilerplate.common.model.SessionUser;
 import me.moon.boilerplate.member.dto.*;
 import me.moon.boilerplate.member.exception.InvalidLoginRequestException;
@@ -28,6 +29,7 @@ public class MemberApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @LoginRequired
     @PutMapping("/member/{memberId}")
     public ResponseEntity update(@RequestBody @Valid MemberUpdateRequest dto, @PathVariable(name = "memberId") Long memberId){
 
@@ -36,6 +38,7 @@ public class MemberApiController {
         return ResponseEntity.ok(response);
     }
 
+    @LoginRequired
     @PutMapping("/member/{memberId}/password")
     public ResponseEntity update(@RequestBody @Valid MemberPasswordUpdateRequest dto, @PathVariable(name = "memberId") Long memberId){
 
@@ -44,6 +47,7 @@ public class MemberApiController {
         return ResponseEntity.ok("비밀번호를 변경했습니다.");
     }
 
+    @LoginRequired
     @DeleteMapping("/member/{memberId}")
     public ResponseEntity withdrawal(@PathVariable(name = "memberId") Long memberId){
 
@@ -66,6 +70,7 @@ public class MemberApiController {
         throw new InvalidLoginRequestException(dto.getEmail().getValue());
     }
 
+    @LoginRequired
     @GetMapping("/logout")
     public ResponseEntity logout(){
 
