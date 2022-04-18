@@ -19,7 +19,8 @@ public enum ErrorCode {
     EMAIL_DUPLICATION("A002", "중복 된 이메일입니다.", 409),
     PASSWORD_FAILED_EXCEEDED("A003", "비밀번호 실패 횟수를 초과했습니다.", 403),
     //LOGIN
-    UNAUTHORIZED_ACCESS("L001", "승인되지 않은 사용자입니다.", 401);
+    UNAUTHORIZED_ACCESS("L001", "승인되지 않은 사용자입니다.", 403),
+    INVALID_LOGIN_REQUEST("L002", "아이디 혹은 비밀번호를 잘못 입력 하셨습니다.", 401);
     private final String code;
     private final String message;
     private final int status;

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.moon.boilerplate.common.model.SessionUser;
 import me.moon.boilerplate.member.dto.*;
 import me.moon.boilerplate.member.exception.EmailDuplicatedException;
+import me.moon.boilerplate.member.exception.InvalidLoginRequestException;
 import me.moon.boilerplate.member.persistence.entity.Member;
 import me.moon.boilerplate.member.persistence.entity.Password;
 import me.moon.boilerplate.member.persistence.repository.MemberRepository;
@@ -57,12 +58,12 @@ public class MemberService {
             return true;
         }
 
-        return false;
+        throw new InvalidLoginRequestException(dto.getEmail().getValue());
     }
 
     public SessionUser findMemberByLoginRequest(LoginRequest dto) {
 
-        Member member = memberFindDao.findByEmail(dto.getEmail());
+        Member member = memberFindDao.findMemberByLoginRequest(dto);
 
         return new SessionUser(member);
     }

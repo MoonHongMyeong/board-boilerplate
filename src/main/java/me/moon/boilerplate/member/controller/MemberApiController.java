@@ -3,6 +3,7 @@ package me.moon.boilerplate.member.controller;
 import lombok.RequiredArgsConstructor;
 import me.moon.boilerplate.common.model.SessionUser;
 import me.moon.boilerplate.member.dto.*;
+import me.moon.boilerplate.member.exception.InvalidLoginRequestException;
 import me.moon.boilerplate.member.service.LoginService;
 import me.moon.boilerplate.member.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -62,7 +63,7 @@ public class MemberApiController {
             return ResponseEntity.ok().build();
         }
 
-        return ResponseEntity.badRequest().build();
+        throw new InvalidLoginRequestException(dto.getEmail().getValue());
     }
 
     @GetMapping("/logout")
