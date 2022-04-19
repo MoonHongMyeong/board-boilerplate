@@ -3,6 +3,7 @@ package me.moon.boilerplate.category.persistence.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.moon.boilerplate.category.dto.CategoryUpdateRequest;
 import me.moon.boilerplate.common.model.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -35,7 +36,8 @@ public class Category extends BaseTimeEntity {
         this.parent = category;
     }
 
-    public void changeCategoryName(String name){
-        this.name = name;
+    public void update(CategoryUpdateRequest dto) {
+        this.name = dto.getName();
+        this.parent = dto.getCategory();
     }
 }

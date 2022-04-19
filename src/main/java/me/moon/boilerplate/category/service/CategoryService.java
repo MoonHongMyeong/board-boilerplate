@@ -21,5 +21,8 @@ public class CategoryService {
 
     public void update(Long categoryId, CategoryUpdateRequest dto) {
         Category category = categoryFindDao.findCategoryById(categoryId);
+
+        category.update(dto);
     }
+
 }
