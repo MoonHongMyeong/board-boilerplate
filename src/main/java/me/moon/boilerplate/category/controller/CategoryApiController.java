@@ -1,6 +1,7 @@
 package me.moon.boilerplate.category.controller;
 
 import lombok.RequiredArgsConstructor;
+import me.moon.boilerplate.category.dto.CategoryResponse;
 import me.moon.boilerplate.category.dto.CategorySaveRequest;
 import me.moon.boilerplate.category.dto.CategoryUpdateRequest;
 import me.moon.boilerplate.category.service.CategoryService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RequestMapping("/api/v1")
@@ -17,6 +19,14 @@ import javax.validation.Valid;
 public class CategoryApiController {
 
     private final CategoryService categoryService;
+
+    @GetMapping("/category")
+    public ResponseEntity<List<CategoryResponse>> getCategories(){
+
+        List<CategoryResponse> categories = categoryService.getCategories();
+
+        return ResponseEntity.ok(categories);
+    }
 
     @LoginRequired
     @PostMapping("/category")
