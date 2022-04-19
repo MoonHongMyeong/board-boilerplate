@@ -25,4 +25,9 @@ public class CategoryService {
         category.update(dto);
     }
 
+    public void delete(Long categoryId) {
+        Category category = categoryFindDao.findCategoryById(categoryId);
+
+        categoryRepository.delete(category);
+    }
 }

@@ -35,4 +35,13 @@ public class CategoryApiController {
 
         return ResponseEntity.ok().build();
     }
+
+    @LoginRequired
+    @DeleteMapping("/category/{categoryId}")
+    public ResponseEntity deleteCategory(@PathVariable(name = "categoryId") Long categoryId){
+
+        categoryService.delete(categoryId);
+
+        return ResponseEntity.ok().build();
+    }
 }
