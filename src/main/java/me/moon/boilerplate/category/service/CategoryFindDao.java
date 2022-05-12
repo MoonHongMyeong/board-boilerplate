@@ -16,4 +16,9 @@ public class CategoryFindDao {
         return categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId.toString()));
     }
+
+    public Category findCategoryByName(String categoryName){
+        return categoryRepository.findBycategoryName(categoryName)
+                .orElseThrow(() -> new CategoryNotFoundException(categoryName));
+    }
 }

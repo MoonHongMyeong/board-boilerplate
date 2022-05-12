@@ -1,9 +1,11 @@
 package me.moon.boilerplate.category.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import me.moon.boilerplate.category.persistence.entity.Category;
 
 @Getter
+@NoArgsConstructor
 public class CategoryResponse {
 
     private Long id;
